@@ -66,6 +66,15 @@
           <td>{{ data.ctnumber }}</td>
           <td>{{ data.ctfoot }}</td>
           <td>{{ data.format }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-outline-success"
+              v-on:click="moveNextScreen(data)"
+            >
+              登録
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -86,6 +95,7 @@ export default {
         "番号",
         "フッダ",
         "フォーマット",
+        "",
       ],
       datas: [
         {
@@ -106,7 +116,6 @@ export default {
       axios
         .get(TO)
         .then((req) => {
-          console.log(req);
           const list = req.data;
           this.datas = [];
           for (let i = 0; i < list.length; i++) {
@@ -145,6 +154,15 @@ export default {
         .catch((e) => {
           console.log(e);
         });
+    },
+    moveNextScreen: function (data) {
+      console.log(data);
+      this.$store.commit("dataset", { id: data.ctid, cd: data.format });
+      this.$router.push({
+        path: "/e_bom",
+      });
+
+      //console.log(id + "" + format);
     },
   },
   watch: {

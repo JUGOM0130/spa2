@@ -1,7 +1,8 @@
 <template>
   <div class="container">
+    <h1>メニュー</h1>
     <div>
-      <h1>共通</h1>
+      <h3>共通</h3>
       <ul>
         <li>
           <router-link to="/junbi">共通</router-link>
@@ -15,7 +16,7 @@
       </ul>
     </div>
     <div>
-      <h1>PLM</h1>
+      <h3>PLM</h3>
       <ul>
         <li>
           <router-link to="/junbi">PDM</router-link>

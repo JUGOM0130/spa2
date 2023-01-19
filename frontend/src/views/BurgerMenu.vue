@@ -1,5 +1,5 @@
 <template>
-  <Slide>
+  <Slide right disableEsc>
     <router-link to="/"><span>Top</span></router-link>
     <router-link to="e_bom"><span>E-BOM</span></router-link>
   </Slide>
