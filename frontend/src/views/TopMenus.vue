@@ -19,18 +19,7 @@
       <h3>PLM</h3>
       <ul>
         <li>
-          <router-link to="/junbi">PDM</router-link>
-          <ul>
-            <li><router-link to="/e_bom">BOMマスタ登録</router-link></li>
-            <li><router-link to="/junbi">BOMマスタ編集</router-link></li>
-            <li><router-link to="/junbi">BOMマスタ一覧</router-link></li>
-
-            <li>
-              <router-link to="/code_regist">コードマスタ登録</router-link>
-            </li>
-            <li><router-link to="/junbi">コードマスタ編集</router-link></li>
-            <li><router-link to="/code_list">コードマスタ一覧</router-link></li>
-          </ul>
+          <a href="/code">コード系メニュー</a>
         </li>
         <li>
           <router-link to="/junbi">生産管理</router-link>

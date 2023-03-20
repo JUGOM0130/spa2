@@ -1,7 +1,7 @@
 <template>
   <Slide right disableEsc>
-    <router-link to="/"><span>Top</span></router-link>
-    <router-link to="e_bom"><span>E-BOM</span></router-link>
+    <a href="/">Top</a>
+    <a href="/code"></a>
   </Slide>
 </template>
 

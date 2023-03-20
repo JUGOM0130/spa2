@@ -1,2 +1,4 @@
-backend
-frontend
+/backend/.git
+/frontend/.git
+/.mypy_cache
+

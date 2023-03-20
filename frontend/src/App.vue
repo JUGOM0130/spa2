@@ -1,33 +1,33 @@
 <template>
-  <div class="back_ground">
-    <BurgerMenu></BurgerMenu>
-    <div class="container">
-      <div class="header">
-        <div>
-          <img src="./assets/header_logo5.png" alt="logo" class="header_icon" />
+  <v-app>
+    <v-main>
+      <div class="back_ground">
+        <div class="container">
+          <div class="header">
+            <div>
+              <a href="/">
+                <v-img
+                  lazy-src="./assets/avail_logo.png"
+                  max-height="100"
+                  max-width="200"
+                  src="./assets/avail_logo.png"
+                ></v-img>
+              </a>
+            </div>
+            <nav>
+              <router-link to="/">Top</router-link> | <a href="/code">PDM</a> |
+              <a href="/tree">tree</a>
+            </nav>
+          </div>
+          <hr />
+          <!-- router-viewにURLと同じ物が表示される bodyに置き換わる -->
+          <router-view />
         </div>
-        <nav>
-          <router-link to="/">root</router-link> |
-          <router-link to="/e_bom">E-BOM</router-link> |
-          <router-link to="/code_list">製品コード一覧</router-link>
-        </nav>
       </div>
-      <hr />
-      <!-- router-viewにURLと同じ物が表示される bodyに置き換わる -->
-      <router-view />
-    </div>
-  </div>
+    </v-main>
+  </v-app>
 </template>
 
-
-<script>
-import BurgerMenu from "./views/BurgerMenu.vue";
-export default {
-  components: {
-    BurgerMenu,
-  },
-};
-</script>
 
 <style scoped>
 .back_ground {
@@ -40,3 +40,13 @@ export default {
   margin-top: 10px;
 }
 </style>
+
+<script>
+export default {
+  name: "App",
+
+  data: () => ({
+    //
+  }),
+};
+</script>

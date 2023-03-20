@@ -8,12 +8,23 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@jambonn/vue-nested-draggable": "^0.1.1",
+    "@mdi/font": "5.9.55",
     "axios": "^1.2.1",
     "core-js": "^3.8.3",
+    "html-webpack-plugin": "^5.5.0",
+    "preload-webpack-plugin": "^2.3.0",
+    "roboto-fontface": "*",
+    "sass": "^1.59.3",
+    "sass-loader": "^13.2.0",
     "vue": "^3.2.13",
+    "vue-draggable-nested-tree": "^3.0.0-beta3",
     "vue-router": "^4.1.6",
     "vue3-burger-menu": "^1.1.1",
-    "vuex": "^4.0.2"
+    "vuedraggable": "^4.1.0",
+    "vuetify": "3",
+    "vuex": "^4.0.2",
+    "webfontloader": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -23,7 +34,9 @@
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3"
+    "eslint-plugin-vue": "^8.0.3",
+    "vue-cli-plugin-vuetify": "~2.5.8",
+    "webpack-plugin-vuetify": "^2.0.0-alpha.0"
   },
   "eslintConfig": {
     "root": true,
