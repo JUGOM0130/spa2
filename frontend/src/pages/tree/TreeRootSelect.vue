@@ -12,9 +12,9 @@ let items = ref([
 let select_item = ref({ pid: "1", name: "VELLFIRE" });
 const nextScreen = () => {
   router.push({
-    path: "/tree_create",
+    path: "/table_tree",
     query: {
-      number: select_item.value.pid,
+      id: select_item.value.pid,
       name: select_item.value.name,
     },
   });

@@ -4,6 +4,7 @@
 /backend/.git
 /frontend/.git
 /.mypy_cache
+.DS_Store
 
 
 #

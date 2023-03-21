@@ -1,24 +1,22 @@
 <script setup>
-import { onMounted, ref, defineProps } from "vue";
-const props = defineProps({
-  root: Array,
-});
-const ISTEST = false;
+import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 
-let tree;
-if (!ISTEST) {
-  tree = ref(props.root);
-} else {
-  tree = ref([
-    { id: "1", name: "VELLFIRE", lv: "1", parentId: "0", order: "" },
-    { id: "2", name: "ALD-A0001Z000", lv: "2", parentId: "1", order: "" },
-    { id: "3", name: "ALD-A0002Z000", lv: "3", parentId: "2", order: "" },
-    { id: "4", name: "ALD-A0003Z000", lv: "4", parentId: "3", order: "" },
-    { id: "5", name: "ALD-AA001Z000", lv: "5", parentId: "4", order: "" },
-    { id: "6", name: "ALD-AA001Y001", lv: "6", parentId: "5", order: "" },
-    { id: "7", name: "ALD-AA001Y002", lv: "6", parentId: "5", order: "" },
-  ]);
-}
+const route = useRoute();
+const pname = route.query.name;
+const pid = route.query.id;
+
+let tree = [];
+tree = ref([
+  {
+    parts_id: pid,
+    name: pname,
+    lv: "1",
+    parentId: "0",
+    order: "",
+    composition_id: "1",
+  },
+]);
 
 let selected = ref(tree.value[0]);
 let add_id = ref("");
@@ -33,7 +31,7 @@ const treeListSort = () => {
       //parentIdが１以上のもの
       let idx = 0;
       new_tree.forEach((el, i) => {
-        if (el.id == e.parentId) {
+        if (el.composition_id == e.parentId) {
           idx = i;
         }
       });
@@ -57,11 +55,27 @@ const treeAdd = () => {
   let id = add_id.value;
   let name = add_name.value;
   let flag = true;
-  let obj = { id: id, name: name, lv: 0, parentId: 0, order: "" };
+  let obj = {
+    parts_id: id,
+    name: name,
+    lv: "1",
+    parentId: "0",
+    order: "",
+    composition_id: "0",
+  };
+
+  //tree内の最大値取得
+  let max = 0;
+  tree.value.forEach((e) => {
+    if (max < Number(e.composition_id)) {
+      max = Number(e.composition_id);
+    }
+  });
+  obj.composition_id = String(max + 1);
 
   //idが登録されているかチェック
   tree.value.forEach((e) => {
-    if (e.id == id) {
+    if (e.composition_id == id) {
       flag = false;
       console.log("既にIDが登録されています");
     }
@@ -74,7 +88,7 @@ const treeAdd = () => {
     let eq_lv_counter = 0;
     tree.value.forEach((e, i) => {
       //セレクトボックスの選択値と配列のidが一致したら要素を保存
-      if (e.id == selected.value.id) {
+      if (e.composition_id == selected.value.composition_id) {
         target = e;
         index = i;
       }
@@ -83,12 +97,13 @@ const treeAdd = () => {
     eq_lv_counter = getInsertPosition(tree.value, target);
 
     console.log(
-      `\tindex = ${index}
-       eq_lv_counter = ${eq_lv_counter}
-       getInsertPosition() = ${getInsertPosition(tree.value, target)}`
+      `\tindex = ${index}\n\teq_lv_counter = ${eq_lv_counter}\n\tgetInsertPosition() = ${getInsertPosition(
+        tree.value,
+        target
+      )}`
     );
     obj.lv = String(Number(target.lv) + 1);
-    obj.parentId = target.id;
+    obj.parentId = String(target.composition_id);
     tree.value.splice(index + 1 + eq_lv_counter, 0, obj);
     tree.value.forEach((e, i) => {
       e.order = i;
@@ -101,7 +116,7 @@ const getInsertPosition = (tree, target) => {
   let sum_arr = [];
   let sum = 0;
   eq_lv = tree.filter((t) => {
-    return t.parentId == target.id;
+    return t.parentId == target.composition_id;
   });
   eq_lv.forEach((new_target) => {
     sum_arr.push(getInsertPosition(tree, new_target));
@@ -136,7 +151,7 @@ onMounted(() => {
           <th>外注加工費</th>
           <th>直接労務費</th>
         </tr>
-        <tr v-for="t in tree" :key="t.id">
+        <tr v-for="t in tree" :key="t.composition_id">
           <td>
             <div class="flex_box">
               <div class="space" v-for="k in t.lv - 1" :key="k"></div>
@@ -179,8 +194,8 @@ onMounted(() => {
       v-model="selected"
       :items="tree"
       item-title="name"
-      item-value="id"
-      :hint="`${selected.name} ,${selected.id}`"
+      item-value="composition_id"
+      :hint="`${selected.name} ,${selected.composition_id}`"
       persistent-hint
       return-object
     >

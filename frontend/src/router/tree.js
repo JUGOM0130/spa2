@@ -15,7 +15,11 @@ const routes = [{
         path: '/tree_create',
         name: 'tree_create',
         component: () => import('@/pages/tree/TreeCreate.vue')
-    },
+    }, {
+        path: '/table_tree',
+        name: 'table_tree',
+        component: () => import('@/pages/tree/TreeCreate.vue')
+    }
 
 ]
 
