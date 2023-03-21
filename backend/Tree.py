@@ -2,8 +2,11 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 import datetime as dt               # 日付
 import logging
-from typing import Union
+from typing import Union, List
 import MysqlConnector
+import random
+import string
+
 router = APIRouter(
     prefix='/tree',
     tags=['tree']
@@ -11,9 +14,13 @@ router = APIRouter(
 
 
 class TreeRegistData(BaseModel):
-    tree_id: int
-    composition_id: int
-    parts_id: int
+    tree_id: Union[str, None]
+    parts_id: str
+    name: str
+    lv: str
+    parent_id: str
+    order: str
+    composition_id: str
 
 
 @router.get('/get_root_list')
@@ -43,24 +50,39 @@ def getRootList():
         mci.close()
 
 
-@router.post('/tree_regist')
-def tree_regist(td: TreeRegistData):
+@router.post('/regist')
+def tree_regist(datas: List[TreeRegistData]):
+    print("/regist ---")
     reg_sql = """
-    INSERT INTO `a_system`.`t_tree_table`
-    (`tree_id`,
-    `composition_id`,
-    `parts_id`)
-    VALUES
-    (%s,%s,%s);
+        INSERT INTO `a_system`.`t_tree_table`
+        (`tree_id`,
+        `composition_id`,
+        `parts_id`,
+        `lv`,
+        `parent_id`,
+        `order`)
+        VALUES
+        (%s,%s,%s,%s,%s,%s);
     """
-    values = (td.tree_id,
-              td.composition_id,
-              td.parts_id,)
+    # ランダムな文字列生成
+    randlst = [random.choice(string.ascii_letters + string.digits)
+               for i in range(20)]
+    random_str = ''.join(randlst)
+
+    values = []
+    for data in datas:
+        values.append([str(random_str),
+                       int(data.composition_id),
+                       int(data.parts_id),
+                       int(data.lv),
+                       str(data.parent_id),
+                       int(data.order)])
     mci = MysqlConnector.Connector()
     row: int = 0
     try:
         # INSERT処理
-        row = mci.insert(reg_sql, values)
+        print(values)
+        row = mci.multiInsert(reg_sql, values)
     except Exception as e:
         print(f"Error Occurred: {e}")
         return {"result": {"status": "ERR", "message": f"Error Occurred: {e}"}}

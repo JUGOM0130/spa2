@@ -1,5 +1,6 @@
 import CONST
 import mysql.connector as mycon
+from typing import List
 
 
 class Connector:
@@ -34,6 +35,19 @@ class Connector:
             rowcnt = cursor.rowcount
             self.con.commit()
         except Exception as e:
+            print(e)
+
+        return rowcnt
+
+    def multiInsert(self, sql: str, value: List) -> int:
+        rowcnt = 0
+        try:
+            cursor = self.cur
+            cursor.executemany(sql, value)
+            rowcnt = cursor.rowcount
+            self.con.commit()
+        except Exception as e:
+            print("== multiInsertExcept ==")
             print(e)
 
         return rowcnt

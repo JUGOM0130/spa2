@@ -1,37 +1,39 @@
 <script setup>
+import axios from "axios";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import constant from "@/const";
 
 const route = useRoute();
 const pname = route.query.name;
 const pid = route.query.id;
-
-let tree = [];
-tree = ref([
+let tree = ref([
   {
     parts_id: pid,
     name: pname,
     lv: "1",
-    parentId: "0",
+    parent_id: "0",
     order: "",
     composition_id: "1",
   },
 ]);
-
 let selected = ref(tree.value[0]);
 let add_id = ref("");
 let add_name = ref("");
+let parts = ref([{ pid: "PartsId", pname: "PartsName" }]);
+let selected_parts = ref(parts.value[0]);
+
 const treeListSort = () => {
   let new_tree = [];
   //配列オブジェクトにソートをかける
-  tree.value.sort((a, b) => a.parentId - b.parentId);
+  tree.value.sort((a, b) => a.parent_id - b.parent_id);
   //配列の並びをツリー形式に見えるように変換
   tree.value.forEach((e) => {
-    if (e.parentId > 0) {
-      //parentIdが１以上のもの
+    if (e.parent_id > 0) {
+      //parent_idが１以上のもの
       let idx = 0;
       new_tree.forEach((el, i) => {
-        if (el.composition_id == e.parentId) {
+        if (el.composition_id == e.parent_id) {
           idx = i;
         }
       });
@@ -52,14 +54,14 @@ const treeListSort = () => {
   console.log(new_tree);
 };
 const treeAdd = () => {
-  let id = add_id.value;
+  let add_ID = add_id.value;
   let name = add_name.value;
   let flag = true;
   let obj = {
-    parts_id: id,
+    parts_id: add_ID,
     name: name,
     lv: "1",
-    parentId: "0",
+    parent_id: "0",
     order: "",
     composition_id: "0",
   };
@@ -72,14 +74,6 @@ const treeAdd = () => {
     }
   });
   obj.composition_id = String(max + 1);
-
-  //idが登録されているかチェック
-  tree.value.forEach((e) => {
-    if (e.composition_id == id) {
-      flag = false;
-      console.log("既にIDが登録されています");
-    }
-  });
 
   //IDの重複が慣れけば配列に追加する
   if (flag) {
@@ -103,7 +97,7 @@ const treeAdd = () => {
       )}`
     );
     obj.lv = String(Number(target.lv) + 1);
-    obj.parentId = String(target.composition_id);
+    obj.parent_id = String(target.composition_id);
     tree.value.splice(index + 1 + eq_lv_counter, 0, obj);
     tree.value.forEach((e, i) => {
       e.order = i;
@@ -116,7 +110,7 @@ const getInsertPosition = (tree, target) => {
   let sum_arr = [];
   let sum = 0;
   eq_lv = tree.filter((t) => {
-    return t.parentId == target.composition_id;
+    return t.parent_id == target.composition_id;
   });
   eq_lv.forEach((new_target) => {
     sum_arr.push(getInsertPosition(tree, new_target));
@@ -127,12 +121,67 @@ const getInsertPosition = (tree, target) => {
 
   return eq_lv.length + sum;
 };
+const getParts = () => {
+  const TO = constant.BACK_END_IP + "/tree/get_root_list";
+  axios
+    .get(TO)
+    .then((res) => {
+      console.log(res);
+      const alias = res.data.result.data;
+      alias.forEach((e) => {
+        parts.value.push({ pid: String(e.pid), pname: String(e.pcd) });
+      });
+      parts.value.shift();
+      selected_parts.value.pid = parts.value[0].pid;
+      selected_parts.value.pname = parts.value[0].pname;
+
+      console.log(parts.value);
+      console.log(selected_parts.value);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+/**
+ * ツリーへデータ追加処理
+ */
+const addClick = () => {
+  add_id.value = selected_parts.value.pid;
+  add_name.value = selected_parts.value.pname;
+  treeAdd();
+};
+/**
+ * ツリー登録処理
+ */
+const registClick = () => {
+  const TO = constant.BACK_END_IP + "/tree/regist";
+  let treeArray = tree.value;
+
+  axios
+    .post(TO, treeArray)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 onMounted(() => {
+  getParts();
   treeListSort();
 });
 </script>
 <template>
   <div>
+    <v-container>
+      <v-row justify="end">
+        <v-btn @click="registClick()" variant="outlined" color="red"
+          >登録</v-btn
+        >
+      </v-row>
+    </v-container>
+
     <div class="table_wrappar">
       <table class="table">
         <tr>
@@ -190,7 +239,7 @@ onMounted(() => {
       </table>
     </div>
     <v-select
-      label="製品"
+      label="選択ノード"
       v-model="selected"
       :items="tree"
       item-title="name"
@@ -200,9 +249,18 @@ onMounted(() => {
       return-object
     >
     </v-select>
-    <v-text-field label="追加要素" v-model="add_name"></v-text-field>
-    <v-text-field label="追加要素ID" v-model="add_id"></v-text-field>
-    <v-btn @click="treeAdd()">追加</v-btn>
+    <v-select
+      label="ツリー追加部品"
+      v-model="selected_parts"
+      :items="parts"
+      item-title="pname"
+      item-value="pid"
+      :hint="`${selected_parts.pname} ,${selected_parts.pid}`"
+      persistent-hint
+      return-object
+    >
+    </v-select>
+    <v-btn @click="addClick()">追加</v-btn>
   </div>
 </template>
 <style scoped lang="scss">
