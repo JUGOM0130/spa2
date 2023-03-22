@@ -7,6 +7,7 @@ import MysqlConnector
 import random
 import string
 
+
 router = APIRouter(
     prefix='/tree',
     tags=['tree']
@@ -52,18 +53,7 @@ def getRootList():
 
 @router.post('/regist')
 def tree_regist(datas: List[TreeRegistData]):
-    print("/regist ---")
-    reg_sql = """
-        INSERT INTO `a_system`.`t_tree_table`
-        (`tree_id`,
-        `composition_id`,
-        `parts_id`,
-        `lv`,
-        `parent_id`,
-        `order`)
-        VALUES
-        (%s,%s,%s,%s,%s,%s);
-    """
+
     # ランダムな文字列生成
     randlst = [random.choice(string.ascii_letters + string.digits)
                for i in range(20)]
@@ -78,14 +68,17 @@ def tree_regist(datas: List[TreeRegistData]):
                        str(data.parent_id),
                        int(data.order)])
     mci = MysqlConnector.Connector()
+
+    reg_sql = mci.getQuery("./TreeQuerys/tree_regist.sql")
     row: int = 0
     try:
         # INSERT処理
         print(values)
         row = mci.multiInsert(reg_sql, values)
+        return {"result": {"status": "OK", "message": f"{row} RowInsert"}}
     except Exception as e:
+        print("== tree_regist Exception ==")
         print(f"Error Occurred: {e}")
         return {"result": {"status": "ERR", "message": f"Error Occurred: {e}"}}
     finally:
         mci.close()
-        return {"result": {"status": "OK", "message": f"{row} RowInsert"}}

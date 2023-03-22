@@ -47,12 +47,17 @@ class Connector:
             rowcnt = cursor.rowcount
             self.con.commit()
         except Exception as e:
-            print("== multiInsertExcept ==")
-            print(e)
-
+            print("== multiInsertExcept ==\n\t== raiseします ==")
+            raise e
+        
         return rowcnt
-
     def close(self) -> None:
         # cur閉じる
         self.cur.close()
         self.con.close()
+
+    def getQuery(self,path):
+        query :str
+        with open(path,'r',encoding='utf-8') as f:
+            query = f.read()
+        return query

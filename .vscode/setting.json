@@ -3,7 +3,8 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[python]":{
-        "editor.tabSize":4
+        "editor.tabSize":4,
+        "editor.formatOnSave":true
     },
     "[typescript]": {
       "editor.formatOnSave": true,
@@ -15,6 +16,14 @@
       "editor.renderWhitespace": "all",
       "editor.acceptSuggestionOnEnter": "off"
     },
+    "python.linting.pylintEnabled": false,
+    "python.linting.pep8Enabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": [
+        "--max-line-length=120",
+        "--max-complexity","20"
+    ],
+    "python.linting.mypyEnabled": true,
     "python.analysis.extraPaths": [
       "${workspaceFolder}/backend/*.py"
     ],
