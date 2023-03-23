@@ -187,6 +187,7 @@ const updateClick = () => {
 /**
  * 初期セットアップ_更新
  */
+/*
 const edit_init = () => {
   display_type.value = "EDIT";
   const TO = constant.BACK_END_IP;
@@ -214,11 +215,13 @@ const edit_init = () => {
       console.log(err);
     });
 };
-
+*/
 onMounted(() => {
+  /*
   if (route.query.tree_id != "") {
     edit_init();
   }
+  */
   getParts();
   treeListSort();
 });
