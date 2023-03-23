@@ -37,6 +37,18 @@ if len(sys.argv) > 1:
             'host': 'localhost',
             'db': 'a_system'
         }
+    elif sys.argv[1] == "AVAIL":
+        print("AVAIL環境運用")
+        # ログレベル設定 リリース時はINFO以上に設定する
+        logging.basicConfig(level=logging.DEBUG)
+
+        # 定数設定
+        CONST = {
+            'user': 'root',
+            'pw': '0000000000',
+            'host': 'localhost',
+            'db': 'a_system'
+        }
     # 検証環境用
     else:
         print("検証環境運用")

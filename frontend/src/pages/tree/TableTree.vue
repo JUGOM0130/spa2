@@ -1,12 +1,15 @@
 <script setup>
 import axios from "axios";
 import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import constant from "@/const";
 
 const route = useRoute();
+const router = useRouter();
 const pname = route.query.name;
 const pid = route.query.id;
+let display_type = ref("REGISTRATION");
+
 let tree = ref([
   {
     parts_id: pid,
@@ -15,6 +18,8 @@ let tree = ref([
     parent_id: "0",
     order: "",
     composition_id: "1",
+    insu: 0,
+    bosu: 0,
   },
 ]);
 let selected = ref(tree.value[0]);
@@ -64,6 +69,8 @@ const treeAdd = () => {
     parent_id: "0",
     order: "",
     composition_id: "0",
+    insu: 0,
+    bosu: 0,
   };
 
   //tree内の最大値取得
@@ -161,6 +168,47 @@ const registClick = () => {
     .post(TO, treeArray)
     .then((res) => {
       console.log(res);
+      let status = res.data.result.status;
+      if (status == "OK") {
+        router.push("/");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+/**
+ * ツリー更新
+ */
+const updateClick = () => {
+  console.log("更新");
+};
+
+/**
+ * 初期セットアップ_更新
+ */
+const edit_init = () => {
+  display_type.value = "EDIT";
+  const TO = constant.BACK_END_IP;
+  axios
+    .post(TO + "/tree/get_tree_datas", { tree_id: route.query.tree_id })
+    .then((res) => {
+      let td = res.data.result.data;
+      console.log(res);
+      tree.value = [];
+      td.forEach((e) => {
+        tree.value.push({
+          parts_id: e.parts_id,
+          name: e.pcd,
+          lv: e.lv,
+          parent_id: e.parent_id,
+          order: e.order,
+          composition_id: e.composition_id,
+          insu: e.insu,
+          bosu: e.bosu,
+        });
+      });
+      selected.value = tree.value[0];
     })
     .catch((err) => {
       console.log(err);
@@ -168,6 +216,9 @@ const registClick = () => {
 };
 
 onMounted(() => {
+  if (route.query.tree_id != "") {
+    edit_init();
+  }
   getParts();
   treeListSort();
 });
@@ -176,8 +227,19 @@ onMounted(() => {
   <div>
     <v-container>
       <v-row justify="end">
-        <v-btn @click="registClick()" variant="outlined" color="red"
+        <v-btn
+          @click="registClick()"
+          variant="outlined"
+          color="red"
+          v-if="display_type == 'REGISTRATION'"
           >登録</v-btn
+        >
+        <v-btn
+          @click="updateClick()"
+          variant="outlined"
+          color="green"
+          v-if="display_type == 'EDIT'"
+          >更新</v-btn
         >
       </v-row>
     </v-container>
@@ -213,8 +275,22 @@ onMounted(() => {
             <input type="text" class="myset_input" placeholder="製品名称" />
           </td>
           <td><input type="text" class="myset_input" placeholder="版数" /></td>
-          <td><input type="text" class="myset_input" placeholder="員数" /></td>
-          <td><input type="text" class="myset_input" placeholder="母数" /></td>
+          <td>
+            <input
+              type="text"
+              class="myset_input"
+              placeholder="員数"
+              v-model="t.insu"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              class="myset_input"
+              placeholder="母数"
+              v-model="t.bosu"
+            />
+          </td>
           <td><input type="text" class="myset_input" placeholder="型式" /></td>
           <td><input type="text" class="myset_input" placeholder="材質" /></td>
           <td>

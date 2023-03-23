@@ -5,7 +5,9 @@ INSERT INTO
         `parts_id`,
         `lv`,
         `parent_id`,
-        `order`
+        `order`,
+        `insu`,
+        `bosu`
     )
 VALUES
-    (%s, %s, %s, %s, %s, %s);
+    (%s, %s, %s, %s, %s, %s, %s, %s);

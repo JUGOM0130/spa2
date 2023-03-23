@@ -6,7 +6,7 @@ import {
 const routes = [{
         path: '/',
         name: 'tree',
-        component: () => import('@/pages/tree/TreeRoot.vue')
+        component: () => import('@/pages/tree/TableTreeList.vue')
     }, {
         path: '/root_select',
         name: 'treecreate',
@@ -19,7 +19,7 @@ const routes = [{
         path: '/table_tree',
         name: 'table_tree',
         component: () => import('@/pages/tree/TreeCreate.vue')
-    }
+    },
 
 ]
 
