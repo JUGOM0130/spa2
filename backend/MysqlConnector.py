@@ -49,15 +49,29 @@ class Connector:
         except Exception as e:
             print("== multiInsertExcept ==\n\t== raiseします ==")
             raise e
-        
+
         return rowcnt
+
+    def delete(self, sql, value) -> int:
+        rowcnt = 0
+        try:
+            cur = self.cur
+            cur.execute(sql, value)
+            rowcnt = cur.rowcount
+            self.con.commit()
+            print("削除しました")
+        except Exception as e:
+            print("== delete ==\n\t== raiseします ==")
+            raise e
+        return rowcnt
+
     def close(self) -> None:
         # cur閉じる
         self.cur.close()
         self.con.close()
 
-    def getQuery(self,path):
-        query :str
-        with open(path,'r',encoding='utf-8') as f:
+    def getQuery(self, path):
+        query: str
+        with open(path, 'r', encoding='utf-8') as f:
             query = f.read()
         return query
