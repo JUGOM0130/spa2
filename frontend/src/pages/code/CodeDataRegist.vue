@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-    <h1>登録</h1>
+    <h1 @click="test">登録</h1>
     <form>
       <input type="hidden" name="pid" v-model="pid" />
       <input type="hidden" name="pcd" v-model="pcd" />
-      <input type="hidden" name="pctid" v-model="pctid" />
+      <input type="hidden" name="pctid" v-model="pcid" />
       <div class="mb-3">
         <label for="pcd" class="form-label">コード</label>
         <input
@@ -48,10 +48,13 @@
             aria-label="Default select example"
             v-model="pvendor"
           >
-            <option selected>-</option>
-            <option value="1">株式会社AVAIL</option>
-            <option value="2">しまの</option>
-            <option value="3">くれは</option>
+            <option
+              v-for="vendor in vendors"
+              :key="vendor.id"
+              :value="vendor.tid"
+            >
+              {{ vendor.tname1 }}
+            </option>
           </select>
         </div>
         <div class="col mb-3">
@@ -142,7 +145,7 @@
 </template>
   <script>
 import axios from "axios";
-import CONST from "../../const";
+
 export default {
   data() {
     return {
@@ -152,7 +155,7 @@ export default {
       pname: "",
       ppname: "",
       prevision: "",
-      pvendor: "",
+      pvendor: 0,
       ptype: "",
       pmaterial: "",
       pio: "",
@@ -160,6 +163,7 @@ export default {
       pmtlsub_cost: 0,
       pprocdict_cost: 0,
       pprocsub_cost: 0,
+      vendors: [{ tid: 0, tname1: "" }],
     };
   },
   methods: {
@@ -171,7 +175,7 @@ export default {
       }
     },
     regist: function () {
-      const TO = CONST.BACK_END_IP + "/parts/regist";
+      const TO = process.env.VUE_APP_BACKEND_IP + "/parts/regist";
 
       console.log(this.$data);
       axios
@@ -185,7 +189,7 @@ export default {
         });
     },
     update: function () {
-      const TO = CONST.BACK_END_IP + "/parts/update";
+      const TO = process.env.VUE_APP_BACKEND_IP + "/parts/update";
       console.log(this.$data);
       axios
         .post(TO, this.$data)
@@ -198,7 +202,7 @@ export default {
         });
     },
     getPartsData: function () {
-      const TO = CONST.BACK_END_IP + "/parts/read/" + this.pid;
+      const TO = process.env.VUE_APP_BACKEND_IP + "/parts/read/" + this.pid;
       axios
         .get(TO, this.$data)
         .then((res) => {
@@ -221,6 +225,20 @@ export default {
           console.log(e);
         });
     },
+    getPVendorAll: function () {
+      const TO = process.env.VUE_APP_BACKEND_IP + "/tori/getListOfName";
+      axios.get(TO).then((res) => {
+        let tehaisaki = res.data.result.data;
+
+        this.$data.vendors = [];
+        tehaisaki.forEach((e) => {
+          this.$data.vendors.push(e);
+        });
+      });
+    },
+    test: function () {
+      console.log(this.$data);
+    },
   },
   mounted: function () {
     this.pcid = this.$store.state.id;
@@ -228,6 +246,8 @@ export default {
     this.pid = this.$store.state.parts_id;
     if (this.pid != 0) {
       this.getPartsData();
+      this.getPVendorAll();
+      console.log(this.vendors);
     }
   },
 };
