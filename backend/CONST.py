@@ -6,7 +6,7 @@ logging.basicConfig(level=logging.DEBUG)
 CONST = {
     'user': 'admin',
     'pw': '0000',
-    'host': '192.168.0.20',
+    'host': 'localhost',
     'db': 'a_system'
 }
 
@@ -59,7 +59,7 @@ if len(sys.argv) > 1:
         CONST = {
             'user': 'admin',
             'pw': '0000',
-            'host': '192.168.0.20',
+            'host': 'localhost',
             'db': 'a_system'
         }
 else:
@@ -71,6 +71,6 @@ else:
     CONST = {
         'user': 'admin',
         'pw': '0000',
-        'host': '192.168.0.20',
+        'host': 'localhost',
         'db': 'a_system'
     }

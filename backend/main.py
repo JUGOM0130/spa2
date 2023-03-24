@@ -13,6 +13,7 @@ import Parts
 import logging
 import CodeTemplate
 import Tree
+import Torihiki
 
 app = FastAPI()
 app.include_router(numbering.router)
@@ -20,6 +21,7 @@ app.include_router(CodeMasta.router)
 app.include_router(CodeTemplate.router)
 app.include_router(Parts.router)
 app.include_router(Tree.router)
+app.include_router(Torihiki.router)
 
 # CORSの設定　クロスオリジンのIP許可List
 origins = [
