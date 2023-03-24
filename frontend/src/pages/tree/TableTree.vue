@@ -133,7 +133,6 @@ const getParts = () => {
   axios
     .get(TO)
     .then((res) => {
-      console.log(res);
       const alias = res.data.result.data;
       alias.forEach((e) => {
         parts.value.push({ pid: String(e.pid), pname: String(e.pcd) });
@@ -141,9 +140,6 @@ const getParts = () => {
       parts.value.shift();
       selected_parts.value.pid = parts.value[0].pid;
       selected_parts.value.pname = parts.value[0].pname;
-
-      console.log(parts.value);
-      console.log(selected_parts.value);
     })
     .catch((err) => {
       console.log(err);
@@ -167,7 +163,6 @@ const registClick = () => {
   axios
     .post(TO, treeArray)
     .then((res) => {
-      console.log(res);
       let status = res.data.result.status;
       if (status == "OK") {
         router.push("/");
@@ -181,13 +176,25 @@ const registClick = () => {
  * ツリー更新
  */
 const updateClick = () => {
-  console.log("更新");
+  const TO = constant.BACK_END_IP + "/tree/update";
+  let treeArray = tree.value;
+  axios
+    .post(TO, treeArray)
+    .then((res) => {
+      let status = res.data.result.status;
+      if (status == "OK") {
+        router.push("/");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 /**
  * 初期セットアップ_更新
  */
-/*
+
 const edit_init = () => {
   display_type.value = "EDIT";
   const TO = constant.BACK_END_IP;
@@ -195,7 +202,6 @@ const edit_init = () => {
     .post(TO + "/tree/get_tree_datas", { tree_id: route.query.tree_id })
     .then((res) => {
       let td = res.data.result.data;
-      console.log(res);
       tree.value = [];
       td.forEach((e) => {
         tree.value.push({
@@ -215,13 +221,12 @@ const edit_init = () => {
       console.log(err);
     });
 };
-*/
+
 onMounted(() => {
-  /*
-  if (route.query.tree_id != "") {
+  if (route.query.tree_id != undefined) {
     edit_init();
   }
-  */
+
   getParts();
   treeListSort();
 });
@@ -235,15 +240,17 @@ onMounted(() => {
           variant="outlined"
           color="red"
           v-if="display_type == 'REGISTRATION'"
-          >登録</v-btn
-        >
+          >登録
+          <v-icon end icon="mdi-database-plus-outline"></v-icon>
+        </v-btn>
         <v-btn
           @click="updateClick()"
           variant="outlined"
           color="green"
           v-if="display_type == 'EDIT'"
-          >更新</v-btn
-        >
+          >更新
+          <v-icon end icon="mdi-database-refresh-outline"></v-icon>
+        </v-btn>
       </v-row>
     </v-container>
 
@@ -265,6 +272,7 @@ onMounted(() => {
           <th>外注加工費</th>
           <th>直接労務費</th>
         </tr>
+
         <tr v-for="t in tree" :key="t.composition_id">
           <td>
             <div class="flex_box">
@@ -273,11 +281,15 @@ onMounted(() => {
             </div>
           </td>
 
-          <td><input type="text" class="myset_input" placeholder="名称" /></td>
+          <td>
+            <input type="text" class="myset_input" placeholder="名称" />
+          </td>
           <td>
             <input type="text" class="myset_input" placeholder="製品名称" />
           </td>
-          <td><input type="text" class="myset_input" placeholder="版数" /></td>
+          <td>
+            <input type="text" class="myset_input" placeholder="版数" />
+          </td>
           <td>
             <input
               type="text"
@@ -294,8 +306,12 @@ onMounted(() => {
               v-model="t.bosu"
             />
           </td>
-          <td><input type="text" class="myset_input" placeholder="型式" /></td>
-          <td><input type="text" class="myset_input" placeholder="材質" /></td>
+          <td>
+            <input type="text" class="myset_input" placeholder="型式" />
+          </td>
+          <td>
+            <input type="text" class="myset_input" placeholder="材質" />
+          </td>
           <td>
             <input type="text" class="myset_input" placeholder="内外作" />
           </td>
@@ -339,7 +355,10 @@ onMounted(() => {
       return-object
     >
     </v-select>
-    <v-btn @click="addClick()">追加</v-btn>
+    <v-btn variant="outlined" @click="addClick()">
+      追加
+      <v-icon icon="mdi-plus-thick"></v-icon>
+    </v-btn>
   </div>
 </template>
 <style scoped lang="scss">

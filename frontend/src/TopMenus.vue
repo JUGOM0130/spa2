@@ -22,6 +22,9 @@
           <a href="/code">コード系メニュー</a>
         </li>
         <li>
+          <a href="/tree">ツリー系メニュー</a>
+        </li>
+        <li>
           <router-link to="/junbi">生産管理</router-link>
           <ul>
             <li><router-link to="/junbi">生産依頼</router-link></li>

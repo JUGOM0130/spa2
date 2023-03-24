@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/',
     name: 'top',
-    component: () => import('../views/TopMenus.vue')
+    component: () => import('@/TopMenus.vue')
   },
   {
     path: '/junbi',

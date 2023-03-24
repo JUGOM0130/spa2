@@ -15,8 +15,9 @@
               </a>
             </div>
             <nav>
-              <router-link to="/">Top</router-link> | <a href="/code">PDM</a> |
-              <a href="/tree">tree</a>
+              <router-link to="/">Top</router-link> |
+              <a href="/code">コード</a> |
+              <a href="/tree">ツリー</a>
             </nav>
           </div>
           <hr />

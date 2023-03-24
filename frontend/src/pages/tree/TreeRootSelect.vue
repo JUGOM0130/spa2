@@ -20,6 +20,7 @@ const nextScreen = () => {
   });
 };
 onMounted(() => {
+  console.log(process.env);
   const TO = constant.BACK_END_IP + "/tree/get_root_list";
   axios
     .get(TO)
@@ -43,6 +44,7 @@ onMounted(() => {
 
 <template>
   <div>
+    <h1>RootNode選択</h1>
     <v-select
       label="製品"
       v-model="select_item"
