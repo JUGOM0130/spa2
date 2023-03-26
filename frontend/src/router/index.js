@@ -28,9 +28,13 @@ const routes = [
     component: () => import('../views/ShainRegist.vue')
   },
   {
-    path: '/tori_toroku',
-    name: 'tori_toroku',
-    component: () => import('../views/ToriRegist.vue')
+    path: '/torihiki',
+    name: 'torihiki',
+    component: () => import('@/pages/torihiki/ToriList.vue')
+  }, {
+    path: '/torihiki_regist',
+    name: 'torihiki_regist',
+    component: () => import('@/pages/torihiki/ToriRegist.vue')
   },
   {
     path: '/saiban',

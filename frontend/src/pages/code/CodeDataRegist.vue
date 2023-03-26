@@ -143,7 +143,7 @@
     </form>
   </div>
 </template>
-  <script>
+<script>
 import axios from "axios";
 
 export default {
@@ -226,7 +226,7 @@ export default {
         });
     },
     getPVendorAll: function () {
-      const TO = process.env.VUE_APP_BACKEND_IP + "/tori/getListOfName";
+      const TO = process.env.VUE_APP_BACKEND_IP + "/torihiki/getListOfName";
       axios.get(TO).then((res) => {
         let tehaisaki = res.data.result.data;
 
