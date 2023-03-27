@@ -98,9 +98,11 @@ const logoclick = () => {
         </v-list>
       </v-navigation-drawer>
       <v-main>
-        <div class="container my-3">
-          <!-- router-viewにURLと同じ物が表示される bodyに置き換わる -->
-          <router-view />
+        <div class="my-3">
+          <v-container>
+            <!-- router-viewにURLと同じ物が表示される bodyに置き換わる -->
+            <router-view />
+          </v-container>
         </div>
       </v-main>
     </v-layout>
