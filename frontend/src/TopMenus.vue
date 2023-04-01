@@ -1,10 +1,10 @@
 <script setup>
 const toCodeMenu = () => {
-  window.location.href = "/code/";
+  window.location.href = "/code";
 };
 
 const toTreeMenu = () => {
-  window.location.href = "/tree/";
+  window.location.href = "/tree";
 };
 </script>
 <template>
@@ -89,4 +89,3 @@ const toTreeMenu = () => {
     </div>
   </div>
 </template>
-

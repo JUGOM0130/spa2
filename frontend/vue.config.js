@@ -32,7 +32,19 @@ module.exports = defineConfig({
       filename: 'tree.html',
     },
   },
-
+  devServer: {
+    historyApiFallback: {
+      rewrites: [{
+          from: /\/index/,
+          to: '/index.html'
+        },
+        {
+          from: /\/code/,
+          to: '/code.html'
+        }
+      ]
+    }
+  },
   pluginOptions: {
     vuetify: {
       // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader

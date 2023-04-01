@@ -34,9 +34,17 @@ const routes = [{
     }
 ]
 
+
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHashHistory('/code#/'),
     routes
 })
+
+/*
+const router = createRouter({
+    history: createWebHistory(),
+    base: '/code/',
+    routes
+})*/
 
 export default router

@@ -3,24 +3,11 @@
 import { ref } from "vue";
 
 let drawer = ref(false);
-let code_items = [
-  { title: "Top", icon: "mdi-folder", link: "/code/" },
-  { title: "コード採番", icon: "mdi-account-multiple", link: "/code_create" },
-  { title: "コード一覧", icon: "mdi-star", link: "/code_list" },
-  {
-    title: "コードテンプレート",
-    icon: "mdi-history",
-    link: "/code_template_regist",
-  },
+let items = [
+  { title: "コード", icon: "mdi-folder", link: "/code#/" },
+  { title: "ツリー", icon: "mdi-folder", link: "/tree#/" },
 ];
-let tree_items = [
-  { title: "ツリー一覧", icon: "mdi-format-list-bulleted", link: "/tree/" },
-  {
-    title: "ツリー新規登録",
-    icon: "mdi-playlist-plus",
-    link: "/root_select",
-  },
-];
+
 const menuclick = (item) => {
   window.location.href = item.link;
 };
@@ -43,27 +30,11 @@ const logoclick = () => {
         <!-- ナビゲーションバー_コードメニューボタン -->
         <v-menu>
           <template v-slot:activator="{ props }">
-            <v-btn color="white" v-bind="props">コードメニュー</v-btn>
+            <v-btn color="white" v-bind="props">メニュー</v-btn>
           </template>
           <v-list>
             <v-list-item
-              v-for="(item, index) in code_items"
-              :key="index"
-              :value="index"
-              @click="menuclick(item)"
-            >
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <!-- ナビゲーションバー_ツリーメニューボタン -->
-        <v-menu>
-          <template v-slot:activator="{ props }">
-            <v-btn color="white" v-bind="props"> ツリーメニュー </v-btn>
-          </template>
-          <v-list>
-            <v-list-item
-              v-for="(item, index) in tree_items"
+              v-for="(item, index) in items"
               :key="index"
               :value="index"
               @click="menuclick(item)"
@@ -84,7 +55,7 @@ const logoclick = () => {
         <v-divider inset></v-divider>
         <v-list :lines="false" density="compact" nav>
           <v-list-item
-            v-for="(item, i) in code_items"
+            v-for="(item, i) in items"
             :key="i"
             :value="item"
             active-color="primary"
