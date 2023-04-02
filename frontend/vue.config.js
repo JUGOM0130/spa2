@@ -14,12 +14,13 @@ module.exports = defineConfig({
       entry: 'src/main.js', // エントリーポイントとなるjs
       template: 'public/index.html', // テンプレートのHTML
       filename: 'index.html', // build時に出力されるファイル名
+      titel: "Index"
     },
     code: {
       entry: 'src/pages/code/main.js', // エントリーポイントとなるjs
       template: 'public/code.html', // テンプレートのHTML
       filename: 'code.html', // build時に出力されるファイル名
-      titel: '管理メニュー'
+      titel: ''
     },
     staff: {
       entry: 'src/pages/staff/main.js',
@@ -41,6 +42,10 @@ module.exports = defineConfig({
         {
           from: /\/code/,
           to: '/code.html'
+        },
+        {
+          from: /\/tree/,
+          to: '/tree.html'
         }
       ]
     }

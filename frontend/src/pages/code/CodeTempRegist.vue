@@ -5,6 +5,10 @@ import axios from "axios";
 import constant from "@/const.js";
 
 const childComponent = ref();
+let dialog = ref(false);
+let dialog_message = ref(
+  "API通信でエラーが発生しました。システム管理者に連絡してください"
+);
 let ctkind = 1;
 let cthead = "";
 const regist = () => {
@@ -18,6 +22,7 @@ const regist = () => {
       })
       .catch((e) => {
         console.log(e);
+        dialog.value = true;
       });
   }
 };
@@ -90,5 +95,18 @@ const regist = () => {
         </div>
       </div>
     </div>
+    <!-- エラーダイアログ -->
+    <v-dialog v-model="dialog" activator="parent" width="auto">
+      <v-card>
+        <v-card-text>
+          {{ dialog_message }}
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary" block @click="dialog = false"
+            >Close Dialog</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>

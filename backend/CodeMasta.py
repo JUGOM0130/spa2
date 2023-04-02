@@ -40,6 +40,7 @@ def read(kind: int):
             user=CONST.CONST['user'],  # ユーザー名
             password=CONST.CONST['pw'],  # パスワード
             host=CONST.CONST['host']  # ホスト名(IPアドレス）
+            , port=CONST.CONST['port']
         )
         if cnx.is_connected:
             logging.debug("connected")

@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 import mysql.connector as mycon
+import CONST
 
 router = APIRouter(
     prefix='/saiban',
@@ -30,8 +31,9 @@ def createNumber(request: Numbering):
         cnx = mycon.connect(
             user=CONSTR['user'],  # ユーザー名
             password=CONSTR['pw'],  # パスワード
-            host=CONSTR['host']  # ホスト名(IPアドレス）
-            ,auth_plugin='mysql_native_password'
+            host=CONSTR['host'],  # ホスト名(IPアドレス
+            port=CONST.CONST['port'],
+            auth_plugin='mysql_native_password'
         )
         if cnx.is_connected:
             print("Connected!")
@@ -71,7 +73,7 @@ def readNumber():
             password=CONSTR['pw'],  # パスワード
             host=CONSTR['host'],  # ホスト名(IPアドレス）
             database=CONSTR['db']  # データベース名
-            ,auth_plugin='mysql_native_password'
+            , auth_plugin='mysql_native_password', port=CONST.CONST['port']
         )
 
         cursor = cnx.cursor()

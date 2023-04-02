@@ -7,7 +7,8 @@ CONST = {
     'user': 'admin',
     'pw': '0000',
     'host': 'localhost',
-    'db': 'a_system'
+    'db': 'a_system',
+    'port': '3306'
 }
 
 if len(sys.argv) > 1:
@@ -22,7 +23,8 @@ if len(sys.argv) > 1:
             'user': 'admin',
             'pw': '0000',
             'host': '192.168.0.20',
-            'db': 'a_system'
+            'db': 'a_system',
+            'port': '3306'
         }
     # 会社Windows
     elif sys.argv[1] == "WIN":
@@ -35,7 +37,8 @@ if len(sys.argv) > 1:
             'user': 'root',
             'pw': '0000000000',
             'host': 'localhost',
-            'db': 'a_system'
+            'db': 'a_system',
+            'port': '3306'
         }
     elif sys.argv[1] == "AVAIL":
         print("AVAIL環境運用")
@@ -47,7 +50,8 @@ if len(sys.argv) > 1:
             'user': 'root',
             'pw': '0000000000',
             'host': 'localhost',
-            'db': 'a_system'
+            'db': 'a_system',
+            'port': '3306'
         }
     # 検証環境用
     else:
@@ -60,7 +64,8 @@ if len(sys.argv) > 1:
             'user': 'admin',
             'pw': '0000',
             'host': 'localhost',
-            'db': 'a_system'
+            'db': 'a_system',
+            'port': '3306'
         }
 else:
     print("引数なし検証環境運用")
@@ -72,5 +77,6 @@ else:
         'user': 'admin',
         'pw': '0000',
         'host': 'localhost',
-        'db': 'a_system'
+        'db': 'a_system',
+        'port': '3306'
     }

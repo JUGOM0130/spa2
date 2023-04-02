@@ -1,6 +1,8 @@
 <script setup>
+/**
+ * エラーメッセージ追加OK
+ */
 import axios from "axios";
-import constant from "@/const";
 import {
   reactive,
   ref,
@@ -10,6 +12,10 @@ import {
   watch,
 } from "vue";
 
+let dialog = ref(false);
+let dialog_message = ref(
+  "API通信でエラーが発生しました。システム管理者に連絡してください"
+);
 let ctkind = ref(0);
 const columns = ["ID", "種別", "英番号", "ヘッダ"];
 let datas = reactive([
@@ -22,11 +28,11 @@ let datas = reactive([
   },
 ]);
 const getList = () => {
-  const TO = constant.BACK_END_IP + "/code_template/select";
+  const TO = process.env.VUE_APP_BACKEND_IP + "/code_template/select";
   axios
     .get(TO)
     .then((res) => {
-      console.log(res)
+      console.log(res);
       datas.splice(0); //配列の初期化
       res.data.result.data.forEach((element) => {
         datas.push(
@@ -42,6 +48,8 @@ const getList = () => {
     })
     .catch((e) => {
       console.log(e);
+      dialog.value = true;
+      dialog_message.value = `API通信でERRが発生しました。\nシステム管理者へ連絡してください。`;
     });
 };
 //const target = (data) => {};
@@ -141,5 +149,18 @@ defineExpose({
         </tr>
       </tbody>
     </table>
+    <!-- エラーダイアログ -->
+    <v-dialog v-model="dialog" activator="parent" width="auto">
+      <v-card>
+        <v-card-text>
+          {{ dialog_message }}
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary" block @click="dialog = false"
+            >Close Dialog</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>

@@ -11,6 +11,7 @@ class Connector:
                 user=CONST.CONST['user'],  # ユーザー名
                 password=CONST.CONST['pw'],  # パスワード
                 host=CONST.CONST['host'],  # ホスト名(IPアドレス）
+                port=CONST.CONST['port'],
                 auth_plugin='mysql_native_password'
             )
             self.con.ping(reconnect=True)  # 接続切れたときに再接続するか
